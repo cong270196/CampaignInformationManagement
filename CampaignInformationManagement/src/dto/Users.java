@@ -58,5 +58,10 @@ public class Users implements Serializable{
     public void setRoleid(int roleid) {
         this.roleid = roleid;
     }
+
+    @Override
+    public String toString() {
+        return this.username;
+    }
     
 }

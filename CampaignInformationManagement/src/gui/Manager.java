@@ -674,23 +674,25 @@ public class Manager extends javax.swing.JFrame {
         }
         int total = 0;
         for (Exchanges e : exchangedao.readAll()) {
-            for (Products_Prices pp : ppdao.readAll()) {
-                if (pp.getProductid().equals(productid)) {
-                    for (Prices p : pricedao.readAll()) {
-                        if ((p.getPriceid() == pp.getPriceid()) && ((e.getSaleday().after(p.getStartday())||e.getSaleday().equals(p.getStartday()))&& e.getSaleday().before(p.getEndday()))) {
-                            total = total + p.getPrice() * e.getQuantity();
+            if (e.getCampaignid().equals(campaignid)) {
+                for (Products_Prices pp : ppdao.readAll()) {
+                    if (pp.getProductid().equals(productid)) {
+                        for (Prices p : pricedao.readAll()) {
+                            if ((p.getPriceid() == pp.getPriceid()) && ((e.getSaleday().after(p.getStartday()) || e.getSaleday().equals(p.getStartday())) && e.getSaleday().before(p.getEndday()))) {
+                                total = total + p.getPrice() * e.getQuantity();
+                            }
                         }
                     }
                 }
             }
             lbTotal.setText(String.valueOf(total));
         }
-        
+
         String typeofcampaign;
         Date startday;
         Date endday;
-        for(Campaigns c : campaigndao.readAll()){
-            if(c.getCampaignid().equals(campaignid)){
+        for (Campaigns c : campaigndao.readAll()) {
+            if (c.getCampaignid().equals(campaignid)) {
                 typeofcampaign = c.getTypeofcampaign();
                 startday = c.getStartday();
                 endday = c.getEndday();

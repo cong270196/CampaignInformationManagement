@@ -18,6 +18,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -58,13 +59,13 @@ public class Price extends javax.swing.JInternalFrame {
         pnBg = new javax.swing.JPanel();
         spPrice = new javax.swing.JScrollPane();
         tbPrice = new javax.swing.JTable();
-        tfStartday = new javax.swing.JTextField();
-        tfEndday = new javax.swing.JTextField();
         btCreate = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         tfPrice = new javax.swing.JTextField();
+        tfStartday = new com.toedter.calendar.JDateChooser();
+        tfEndday = new com.toedter.calendar.JDateChooser();
 
         setPreferredSize(new java.awt.Dimension(730, 450));
 
@@ -98,12 +99,6 @@ public class Price extends javax.swing.JInternalFrame {
 
         pnBg.add(spPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 564, 310));
 
-        tfStartday.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
-        pnBg.add(tfStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 130, -1));
-
-        tfEndday.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
-        pnBg.add(tfEndday, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 130, -1));
-
         btCreate.setText("Create");
         btCreate.setPreferredSize(new java.awt.Dimension(80, 30));
         btCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -131,6 +126,12 @@ public class Price extends javax.swing.JInternalFrame {
         tfPrice.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
         pnBg.add(tfPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 130, -1));
 
+        tfStartday.setDateFormatString("yyyy-MM-dd");
+        pnBg.add(tfStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 130, -1));
+
+        tfEndday.setDateFormatString("yyyy-MM-dd");
+        pnBg.add(tfEndday, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 130, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -151,9 +152,9 @@ public class Price extends javax.swing.JInternalFrame {
 
     private void btCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateActionPerformed
         try {
-            if (tfPrice.getText().trim().equals("") || tfStartday.getText().trim().equals("") || tfEndday.getText().trim().equals("")) {
+            if (tfPrice.getText().trim().equals("") || ((JTextField)tfStartday.getDateEditor().getUiComponent()).getText().equals("") || ((JTextField)tfEndday.getDateEditor().getUiComponent()).getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please complete all information");
-            } else if (!isLegalDate(tfStartday.getText().trim()) || !isLegalDate(tfEndday.getText().trim())) {
+            } else if (!isLegalDate(((JTextField)tfStartday.getDateEditor().getUiComponent()).getText()) || !isLegalDate(((JTextField)tfEndday.getDateEditor().getUiComponent()).getText())) {
                 JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
             } else {
                 int pid = 1;
@@ -171,8 +172,8 @@ public class Price extends javax.swing.JInternalFrame {
                     pid++;
                 }
                 int price = Integer.parseInt(tfPrice.getText().trim());
-                Date startday = new SimpleDateFormat("yyyy-MM-dd").parse(tfStartday.getText().trim());
-                Date endday = new SimpleDateFormat("yyyy-MM-dd").parse(tfEndday.getText().trim());
+                Date startday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfStartday.getDateEditor().getUiComponent()).getText());
+                Date endday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfEndday.getDateEditor().getUiComponent()).getText());
                 Prices p = new Prices(pid, price, startday, endday);
 
                 int ppid = 1;
@@ -194,8 +195,8 @@ public class Price extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Success");
                     loadTablePrice(ppdao.readAll());
                     tfPrice.setText("");
-                    tfStartday.setText("");
-                    tfEndday.setText("");
+                    ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText("");
+                    ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText("");
                 }
             }
         } catch (ParseException ex) {
@@ -212,9 +213,9 @@ public class Price extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnBg;
     private javax.swing.JScrollPane spPrice;
     private javax.swing.JTable tbPrice;
-    private javax.swing.JTextField tfEndday;
+    private com.toedter.calendar.JDateChooser tfEndday;
     private javax.swing.JTextField tfPrice;
-    private javax.swing.JTextField tfStartday;
+    private com.toedter.calendar.JDateChooser tfStartday;
     // End of variables declaration//GEN-END:variables
 
     boolean isLegalDate(String s) {

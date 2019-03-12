@@ -31,6 +31,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -83,8 +84,6 @@ public class Campaign extends javax.swing.JInternalFrame {
         tbCampaign = new javax.swing.JTable();
         tfCampaignid = new javax.swing.JTextField();
         tfTypeofcampaign = new javax.swing.JTextField();
-        tfStartday = new javax.swing.JTextField();
-        tfEndday = new javax.swing.JTextField();
         btCreate = new javax.swing.JButton();
         btReset = new javax.swing.JButton();
         btUpdate = new javax.swing.JButton();
@@ -97,6 +96,8 @@ public class Campaign extends javax.swing.JInternalFrame {
         cbManager = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        tfStartday = new com.toedter.calendar.JDateChooser();
+        tfEndday = new com.toedter.calendar.JDateChooser();
 
         setPreferredSize(new java.awt.Dimension(730, 450));
 
@@ -135,12 +136,6 @@ public class Campaign extends javax.swing.JInternalFrame {
 
         tfTypeofcampaign.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
         pnBg.add(tfTypeofcampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(201, 37, 120, -1));
-
-        tfStartday.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
-        pnBg.add(tfStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 120, -1));
-
-        tfEndday.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
-        pnBg.add(tfEndday, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 120, -1));
 
         btCreate.setText("Create");
         btCreate.setPreferredSize(new java.awt.Dimension(80, 30));
@@ -216,6 +211,12 @@ public class Campaign extends javax.swing.JInternalFrame {
         jLabel6.setText("Manager");
         pnBg.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, -1, -1));
 
+        tfStartday.setDateFormatString("yyyy-MM-dd");
+        pnBg.add(tfStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, 140, -1));
+
+        tfEndday.setDateFormatString("yyyy-MM-dd");
+        pnBg.add(tfEndday, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 130, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -234,15 +235,15 @@ public class Campaign extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         try {
             // TODO add your handling code here:
-            if (tfCampaignid.getText().trim().equals("") || tfTypeofcampaign.getText().trim().equals("") || tfStartday.getText().trim().equals("") || tfEndday.getText().trim().equals("")) {
+            if (tfCampaignid.getText().trim().equals("") || tfTypeofcampaign.getText().trim().equals("") || ((JTextField)tfStartday.getDateEditor().getUiComponent()).getText().equals("") || ((JTextField)tfEndday.getDateEditor().getUiComponent()).getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please complete all information");
-            } else if (!isLegalDate(tfStartday.getText().trim()) || !isLegalDate(tfEndday.getText().trim())) {
+            } else if (!isLegalDate(((JTextField)tfStartday.getDateEditor().getUiComponent()).getText()) || !isLegalDate(((JTextField)tfEndday.getDateEditor().getUiComponent()).getText())) {
                 JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
             } else {
                 String campaignid = tfCampaignid.getText().trim();
                 String typeofcampaign = tfTypeofcampaign.getText().trim();
-                Date startday = new SimpleDateFormat("yyyy-MM-dd").parse(tfStartday.getText().trim());
-                Date endday = new SimpleDateFormat("yyyy-MM-dd").parse(tfEndday.getText().trim());
+                Date startday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfStartday.getDateEditor().getUiComponent()).getText());
+                Date endday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfEndday.getDateEditor().getUiComponent()).getText());
                 Campaigns campaign = new Campaigns(campaignid, typeofcampaign, startday, endday);
                 int manageid = 1;
                 boolean checkmanageid;
@@ -275,8 +276,8 @@ public class Campaign extends javax.swing.JInternalFrame {
                     loadTableCampaign(campaigndao.readAll());
                     tfCampaignid.setText("");
                     tfTypeofcampaign.setText("");
-                    tfStartday.setText("");
-                    tfEndday.setText("");
+                    ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText("");
+                    ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText("");
                     rowSelected = -1;
                     Combobox();
                 }
@@ -292,8 +293,8 @@ public class Campaign extends javax.swing.JInternalFrame {
         tfCampaignid.setEditable(true);
         tfCampaignid.setText("");
         tfTypeofcampaign.setText("");
-        tfStartday.setText("");
-        tfEndday.setText("");
+        ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText("");
+        ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText("");
         rowSelected = -1;
     }//GEN-LAST:event_btResetActionPerformed
 
@@ -301,16 +302,16 @@ public class Campaign extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (rowSelected == -1) {
             JOptionPane.showMessageDialog(null, "Please select the row");
-        } else if (tfTypeofcampaign.getText().trim().equals("") || tfStartday.getText().trim().equals("") || tfEndday.getText().trim().equals("")) {
+        } else if (tfTypeofcampaign.getText().trim().equals("") || ((JTextField)tfStartday.getDateEditor().getUiComponent()).getText().equals("") || ((JTextField)tfEndday.getDateEditor().getUiComponent()).getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Please complete all information");
-        } else if (!isLegalDate(tfStartday.getText().trim()) || !isLegalDate(tfEndday.getText().trim())) {
+        } else if (!isLegalDate(((JTextField)tfStartday.getDateEditor().getUiComponent()).getText()) || !isLegalDate(((JTextField)tfEndday.getDateEditor().getUiComponent()).getText())) {
             JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
         } else {
             try {
                 String campaignid = tfCampaignid.getText().trim();
                 String typeofcampaign = tfTypeofcampaign.getText().trim();
-                Date startday = new SimpleDateFormat("yyyy-MM-dd").parse(tfStartday.getText().trim());
-                Date endday = new SimpleDateFormat("yyyy-MM-dd").parse(tfEndday.getText().trim());
+                Date startday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfStartday.getDateEditor().getUiComponent()).getText());
+                Date endday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfEndday.getDateEditor().getUiComponent()).getText());
                 Campaigns campaign = new Campaigns(campaignid, typeofcampaign, startday, endday);
                 int manageid = 1;
                 boolean checkmanageid;
@@ -343,8 +344,8 @@ public class Campaign extends javax.swing.JInternalFrame {
                     tfCampaignid.setText("");
                     tfCampaignid.setEditable(true);
                     tfTypeofcampaign.setText("");
-                    tfStartday.setText("");
-                    tfEndday.setText("");
+                    ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText("");
+                    ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText("");
                     rowSelected = -1;
                     Combobox();
                 }
@@ -367,8 +368,8 @@ public class Campaign extends javax.swing.JInternalFrame {
                 tfCampaignid.setText("");
                 tfCampaignid.setEditable(true);
                 tfTypeofcampaign.setText("");
-                tfStartday.setText("");
-                tfEndday.setText("");
+                ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText("");
+                ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText("");
                 rowSelected = -1;
                 Combobox();
                 for (Products p : productdao.readAll()) {
@@ -406,8 +407,8 @@ public class Campaign extends javax.swing.JInternalFrame {
         tfCampaignid.setText(campaignid);
         tfCampaignid.setEditable(false);
         tfTypeofcampaign.setText(typeofcampaign);
-        tfStartday.setText(String.valueOf(startday));
-        tfEndday.setText(String.valueOf(endday));
+        ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText(String.valueOf(startday));
+        ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText(String.valueOf(endday));
     }//GEN-LAST:event_tbCampaignMouseClicked
 
 
@@ -428,8 +429,8 @@ public class Campaign extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane spCampaign;
     private javax.swing.JTable tbCampaign;
     private javax.swing.JTextField tfCampaignid;
-    private javax.swing.JTextField tfEndday;
-    private javax.swing.JTextField tfStartday;
+    private com.toedter.calendar.JDateChooser tfEndday;
+    private com.toedter.calendar.JDateChooser tfStartday;
     private javax.swing.JTextField tfTypeofcampaign;
     // End of variables declaration//GEN-END:variables
 

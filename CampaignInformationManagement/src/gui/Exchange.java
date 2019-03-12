@@ -24,6 +24,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -76,13 +77,13 @@ public class Exchange extends javax.swing.JInternalFrame {
         pnBg = new javax.swing.JPanel();
         spExchange = new javax.swing.JScrollPane();
         tbExchange = new javax.swing.JTable();
-        tfSaleday = new javax.swing.JTextField();
         tfQuantity = new javax.swing.JTextField();
         btCreate = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lbTotal = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        tfSaleday = new com.toedter.calendar.JDateChooser();
 
         setPreferredSize(new java.awt.Dimension(730, 450));
 
@@ -115,14 +116,6 @@ public class Exchange extends javax.swing.JInternalFrame {
         spExchange.setViewportView(tbExchange);
 
         pnBg.add(spExchange, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 564, 270));
-
-        tfSaleday.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
-        tfSaleday.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tfSaledayMouseClicked(evt);
-            }
-        });
-        pnBg.add(tfSaleday, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 130, -1));
 
         tfQuantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
         tfQuantity.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -161,6 +154,9 @@ public class Exchange extends javax.swing.JInternalFrame {
         jLabel1.setText("TOTAL($):");
         pnBg.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, 70, 30));
 
+        tfSaleday.setDateFormatString("yyyy-MM-dd");
+        pnBg.add(tfSaleday, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 140, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -181,14 +177,14 @@ public class Exchange extends javax.swing.JInternalFrame {
 
     private void btCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateActionPerformed
         try {
-            if (tfSaleday.getText().equals("") || tfQuantity.getText().equals("")) {
+            if (((JTextField)tfSaleday.getDateEditor().getUiComponent()).getText().equals("") || tfQuantity.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please complete all information");
             }
-            else if(!isLegalDate(tfSaleday.getText().trim())){
+            else if(!isLegalDate(((JTextField)tfSaleday.getDateEditor().getUiComponent()).getText())){
                 JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
             }
             else {
-                Date saleday = new SimpleDateFormat("yyyy-MM-dd").parse(tfSaleday.getText().trim());
+                Date saleday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfSaleday.getDateEditor().getUiComponent()).getText());
                 int quantity = Integer.parseInt(tfQuantity.getText().trim());
                 Exchanges e = new Exchanges(campaignid, saleday, quantity);
                 if (exchangedao.create(e) != null) {
@@ -206,7 +202,7 @@ public class Exchange extends javax.swing.JInternalFrame {
                         }
                     }
                     loadTableExchange(exchangedao.readAll());
-                    tfSaleday.setText("");
+                    ((JTextField)tfSaleday.getDateEditor().getUiComponent()).setText("");
                     tfQuantity.setText("");
                 }
             }
@@ -214,11 +210,6 @@ public class Exchange extends javax.swing.JInternalFrame {
             Logger.getLogger(Exchange.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btCreateActionPerformed
-
-    private void tfSaledayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSaledayMouseClicked
-        // TODO add your handling code here:
-        tfSaleday.setText("");
-    }//GEN-LAST:event_tfSaledayMouseClicked
 
     private void tfQuantityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfQuantityMouseClicked
         // TODO add your handling code here:
@@ -236,7 +227,7 @@ public class Exchange extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane spExchange;
     private javax.swing.JTable tbExchange;
     private javax.swing.JTextField tfQuantity;
-    private javax.swing.JTextField tfSaleday;
+    private com.toedter.calendar.JDateChooser tfSaleday;
     // End of variables declaration//GEN-END:variables
 
     private void loadTableExchange(List<Exchanges> readAll) {
@@ -251,7 +242,6 @@ public class Exchange extends javax.swing.JInternalFrame {
         int total = 0;
         for (Exchanges e : readAll) {
             if (e.getCampaignid().equals(campaignid)) {
-
                 Vector row = new Vector();
                 row.add(no);
                 row.add(e.getSaleday());

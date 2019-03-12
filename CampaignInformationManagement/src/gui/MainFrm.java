@@ -74,14 +74,14 @@ public class MainFrm extends javax.swing.JFrame {
         dpMain.setLayout(dpMainLayout);
         dpMainLayout.setHorizontalGroup(
             dpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
+            .addGap(0, 610, Short.MAX_VALUE)
         );
         dpMainLayout.setVerticalGroup(
             dpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 570, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
-        getContentPane().add(dpMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 740, 570));
+        getContentPane().add(dpMain, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 0, 610, 500));
 
         jLabel1.setText("REALITY");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
