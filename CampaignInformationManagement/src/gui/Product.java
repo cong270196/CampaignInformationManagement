@@ -98,6 +98,9 @@ public class Product extends javax.swing.JInternalFrame {
         tfDescription.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
         pnBg.add(tfDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 90, 130, -1));
 
+        btCreate.setBackground(new java.awt.Color(54, 33, 89));
+        btCreate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btCreate.setForeground(new java.awt.Color(255, 255, 255));
         btCreate.setText("Create");
         btCreate.setPreferredSize(new java.awt.Dimension(80, 30));
         btCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +110,9 @@ public class Product extends javax.swing.JInternalFrame {
         });
         pnBg.add(btCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 20, -1, -1));
 
+        btReset.setBackground(new java.awt.Color(54, 33, 89));
+        btReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btReset.setForeground(new java.awt.Color(255, 255, 255));
         btReset.setText("Reset");
         btReset.setPreferredSize(new java.awt.Dimension(80, 30));
         btReset.addActionListener(new java.awt.event.ActionListener() {
@@ -116,6 +122,9 @@ public class Product extends javax.swing.JInternalFrame {
         });
         pnBg.add(btReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 20, -1, -1));
 
+        btUpdate.setBackground(new java.awt.Color(54, 33, 89));
+        btUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btUpdate.setText("Update");
         btUpdate.setPreferredSize(new java.awt.Dimension(80, 30));
         btUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +134,9 @@ public class Product extends javax.swing.JInternalFrame {
         });
         pnBg.add(btUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 20, -1, -1));
 
+        btDelete.setBackground(new java.awt.Color(54, 33, 89));
+        btDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btDelete.setForeground(new java.awt.Color(255, 255, 255));
         btDelete.setText("Delete");
         btDelete.setPreferredSize(new java.awt.Dimension(80, 30));
         btDelete.addActionListener(new java.awt.event.ActionListener() {

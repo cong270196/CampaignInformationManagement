@@ -140,6 +140,11 @@ public class LoginFrm extends javax.swing.JFrame {
                 pfPasswordMouseClicked(evt);
             }
         });
+        pfPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pfPasswordActionPerformed(evt);
+            }
+        });
         jPanel3.add(pfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 190, -1));
 
         jPanel4.setForeground(new java.awt.Color(51, 0, 153));
@@ -217,7 +222,8 @@ public class LoginFrm extends javax.swing.JFrame {
                     }
                 }
                 else{
-                    JOptionPane.showMessageDialog(this, "Reporter: " + u.getUsername());
+                    new Reporter().setVisible(true);
+                    this.dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Invalid password");
@@ -241,6 +247,45 @@ public class LoginFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void pfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pfPasswordActionPerformed
+        // TODO add your handling code here:
+        String username = tfUsername.getText().trim();
+        String password = pfPassword.getText().trim();
+        Users u = new UsersDAO().readByUsername(username);
+        if (u != null) {
+            if (u.getPassword().equals(password)) {
+                if (u.getRoleid() == 1) {
+                    new Admin().setVisible(true);
+                    this.dispose();
+                } else if (u.getRoleid() == 2){
+                    boolean checkid = false;
+                    for(Managecams mm : managedao.readAll()){
+                        if(u.getUserid().equals(mm.getUserid())){
+                            checkid = true;
+                            break;
+                        }
+                    }
+                    if(checkid == true){
+                        userids = u.getUserid();
+                        new Manager().setVisible(true);
+                        this.dispose();
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(this, "You do not manage any campaigns");
+                    }
+                }
+                else{
+                    new Reporter().setVisible(true);
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid password");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Username does not exist");
+        }
+    }//GEN-LAST:event_pfPasswordActionPerformed
 
     /**
      * @param args the command line arguments

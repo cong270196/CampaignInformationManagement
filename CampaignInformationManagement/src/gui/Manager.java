@@ -10,6 +10,7 @@ import dao.EstimatesDAO;
 import dao.ExchangesDAO;
 import dao.ManagecamsDAO;
 import dao.PricesDAO;
+import dao.ProductsDAO;
 import dao.Products_PricesDAO;
 import dao.RealitysDAO;
 import dto.Campaigns;
@@ -38,6 +39,7 @@ public class Manager extends javax.swing.JFrame {
     ExchangesDAO exchangedao = null;
     RealitysDAO realitydao = null;
     CampaignsDAO campaigndao = null;
+    ProductsDAO productdao = null;
     String userid = new LoginFrm().userids;
     String campaignid;
     String productid;
@@ -55,6 +57,7 @@ public class Manager extends javax.swing.JFrame {
         exchangedao = new ExchangesDAO();
         realitydao = new RealitysDAO();
         campaigndao = new CampaignsDAO();
+        productdao = new ProductsDAO();
         for (Managecams mm : managedao.readAll()) {
             if (mm.getUserid().equals(userid)) {
                 campaignid = mm.getCampaignid();
@@ -98,13 +101,17 @@ public class Manager extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        lbEstimateQuantity = new javax.swing.JLabel();
+        lbVarianceallowed = new javax.swing.JLabel();
         lbEstimateBudget = new javax.swing.JLabel();
         lbRealityBudget = new javax.swing.JLabel();
         lbRealityQuantity = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         lbTotal = new javax.swing.JLabel();
         btUpdate = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lbEstimateQuantity = new javax.swing.JLabel();
+        lbVaQuantity = new javax.swing.JLabel();
+        lbVaBudget = new javax.swing.JLabel();
         dpMain = new javax.swing.JDesktopPane(){
             @Override
             protected void paintComponent(Graphics g) {
@@ -350,33 +357,34 @@ public class Manager extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel4.setText("Budget");
+        jLabel4.setText("Budget($)");
         pnRight.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel6.setText("Quantity");
-        pnRight.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
+        jLabel6.setText("V.A(%)");
+        jLabel6.setToolTipText("Variance Allowed (%)");
+        pnRight.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, -1, -1));
 
-        lbEstimateQuantity.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lbEstimateQuantity.setForeground(new java.awt.Color(204, 51, 0));
-        lbEstimateQuantity.setText("0");
-        pnRight.add(lbEstimateQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, 62, 40));
+        lbVarianceallowed.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbVarianceallowed.setForeground(new java.awt.Color(204, 51, 0));
+        lbVarianceallowed.setText("0");
+        pnRight.add(lbVarianceallowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 60, 40, 40));
 
         lbEstimateBudget.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbEstimateBudget.setForeground(new java.awt.Color(204, 51, 0));
         lbEstimateBudget.setText("0");
-        pnRight.add(lbEstimateBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 60, 40));
+        pnRight.add(lbEstimateBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 70, 20));
 
-        lbRealityBudget.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbRealityBudget.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lbRealityBudget.setForeground(new java.awt.Color(204, 51, 0));
         lbRealityBudget.setText("0");
-        pnRight.add(lbRealityBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 130, 70));
+        pnRight.add(lbRealityBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 80, 30));
 
-        lbRealityQuantity.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbRealityQuantity.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lbRealityQuantity.setForeground(new java.awt.Color(204, 51, 0));
         lbRealityQuantity.setText("0");
-        pnRight.add(lbRealityQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 130, 70));
+        pnRight.add(lbRealityQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 80, 30));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -390,6 +398,9 @@ public class Manager extends javax.swing.JFrame {
         lbTotal.setText("0");
         pnRight.add(lbTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 230, 60));
 
+        btUpdate.setBackground(new java.awt.Color(54, 33, 89));
+        btUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btUpdate.setText("Update");
         btUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -397,6 +408,22 @@ public class Manager extends javax.swing.JFrame {
             }
         });
         pnRight.add(btUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 160, 100, 30));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel8.setText("Quantity");
+        pnRight.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, -1, -1));
+
+        lbEstimateQuantity.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbEstimateQuantity.setForeground(new java.awt.Color(204, 51, 0));
+        lbEstimateQuantity.setText("0");
+        pnRight.add(lbEstimateQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 70, 20));
+
+        lbVaQuantity.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        pnRight.add(lbVaQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, -1, -1));
+
+        lbVaBudget.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        pnRight.add(lbVaBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, -1, -1));
 
         bg.add(pnRight, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 730, 190));
 
@@ -424,10 +451,10 @@ public class Manager extends javax.swing.JFrame {
         });
         bg.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 0, 30, 30));
 
-        lbEndday.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbEndday.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbEndday.setForeground(new java.awt.Color(204, 51, 0));
         lbEndday.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bg.add(lbEndday, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 30, 90, 20));
+        bg.add(lbEndday, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 30, 140, 20));
 
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(54, 33, 89));
@@ -452,27 +479,27 @@ public class Manager extends javax.swing.JFrame {
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(54, 33, 89));
         jLabel21.setText("END DAY");
-        bg.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 10, -1, -1));
+        bg.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, -1, -1));
 
-        lbCampaign.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbCampaign.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbCampaign.setForeground(new java.awt.Color(204, 51, 0));
         lbCampaign.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bg.add(lbCampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 80, 20));
+        bg.add(lbCampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 110, 20));
 
-        lbTofc.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbTofc.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbTofc.setForeground(new java.awt.Color(204, 51, 0));
         lbTofc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bg.add(lbTofc, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, 100, 20));
+        bg.add(lbTofc, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, 150, 20));
 
-        lbProduct.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbProduct.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbProduct.setForeground(new java.awt.Color(204, 51, 0));
         lbProduct.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bg.add(lbProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 30, 70, 20));
+        bg.add(lbProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 120, 20));
 
-        lbStartday.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbStartday.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbStartday.setForeground(new java.awt.Color(204, 51, 0));
         lbStartday.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        bg.add(lbStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, 90, 20));
+        bg.add(lbStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 30, 130, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -631,6 +658,7 @@ public class Manager extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCampaign;
@@ -646,6 +674,9 @@ public class Manager extends javax.swing.JFrame {
     private javax.swing.JLabel lbTotal;
     private javax.swing.JLabel lbTransaction;
     private javax.swing.JLabel lbUpdateEstimateBudget;
+    private javax.swing.JLabel lbVaBudget;
+    private javax.swing.JLabel lbVaQuantity;
+    private javax.swing.JLabel lbVarianceallowed;
     private javax.swing.JPanel pnChangePassword;
     private javax.swing.JPanel pnEstimate;
     private javax.swing.JPanel pnExchange;
@@ -656,21 +687,76 @@ public class Manager extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void Information() {
+        String estimatebudget = "0";
+        String estimatequantity = "0";
         for (Estimates es : estimatedao.readAll()) {
             if (es.getCampaignid().equals(campaignid)) {
-                String estimatebudget = String.valueOf(es.getBudget());
+                estimatebudget = String.valueOf(es.getBudget());
                 lbEstimateBudget.setText(estimatebudget);
-                String estimatequantity = String.valueOf(es.getTarget());
+                estimatequantity = String.valueOf(es.getTarget());
                 lbEstimateQuantity.setText(estimatequantity);
+                String varianceallowed = String.valueOf(es.getVarianceallowed());
+                lbVarianceallowed.setText(varianceallowed);
             }
         }
+        String realitybudget = "0";
+        String realityquantity = "0";
         for (Realitys re : realitydao.readAll()) {
             if (re.getCampaignid().equals(campaignid)) {
-                String realitybudget = String.valueOf(re.getSumbudget());
+                realitybudget = String.valueOf(re.getSumbudget());
                 lbRealityBudget.setText(realitybudget);
-                String realityquantity = String.valueOf(re.getSumquantity());
+                realityquantity = String.valueOf(re.getSumquantity());
                 lbRealityQuantity.setText(realityquantity);
             }
+        }
+        
+        float budget = (Float.parseFloat(estimatebudget)-Float.parseFloat(realitybudget))/Float.parseFloat(estimatebudget);
+        if(budget>0){
+            lbVaBudget.setVisible(true);
+            budget = budget * 100;
+            lbVaBudget.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_sort_down_filled_20px.png")));
+            lbVaBudget.setText(String.valueOf(budget) + "%");
+            lbVaBudget.setForeground(new java.awt.Color(0,255,0));
+        }
+        else if(budget<0){
+            lbVaBudget.setVisible(true);
+            budget = -budget * 100;
+            lbVaBudget.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_sort_up_filled_20px_1.png")));
+            lbVaBudget.setText(String.valueOf(budget) + "%");
+            lbVaBudget.setForeground(new java.awt.Color(255,0,0));
+        }
+        else if(budget==0 && Float.parseFloat(estimatebudget)!=0){
+            lbVaBudget.setVisible(true);
+            lbVaBudget.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_equal_sign_20px.png")));
+            lbVaBudget.setText(String.valueOf(budget) + "%");
+            lbVaBudget.setForeground(new java.awt.Color(255,255,0));
+        }
+        else{
+            lbVaBudget.setVisible(false);
+        }
+        float quantity = (Float.parseFloat(estimatequantity)-Float.parseFloat(realityquantity))/Float.parseFloat(estimatequantity);
+        if(quantity>0){
+            lbVaQuantity.setVisible(true);
+            quantity = quantity * 100;
+            lbVaQuantity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_sort_down_filled_20px_1.png")));
+            lbVaQuantity.setText(String.valueOf(quantity) + "%");
+            lbVaQuantity.setForeground(new java.awt.Color(255,0,0));
+        }
+        else if(quantity<0){
+            lbVaQuantity.setVisible(true);
+            quantity = -quantity * 100;
+            lbVaQuantity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_sort_up_filled_20px.png")));
+            lbVaQuantity.setText(String.valueOf(quantity) + "%");
+            lbVaQuantity.setForeground(new java.awt.Color(0,255,0));
+        }
+        else if(quantity==0 && Float.parseFloat(estimatequantity)!=0){
+            lbVaQuantity.setVisible(true);
+            lbVaQuantity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_equal_sign_20px.png")));
+            lbVaQuantity.setText(String.valueOf(quantity) + "%");
+            lbVaQuantity.setForeground(new java.awt.Color(255,255,0));
+        }
+        else{
+            lbVaQuantity.setVisible(false);
         }
         int total = 0;
         for (Exchanges e : exchangedao.readAll()) {
@@ -678,8 +764,17 @@ public class Manager extends javax.swing.JFrame {
                 for (Products_Prices pp : ppdao.readAll()) {
                     if (pp.getProductid().equals(productid)) {
                         for (Prices p : pricedao.readAll()) {
-                            if ((p.getPriceid() == pp.getPriceid()) && ((e.getSaleday().after(p.getStartday()) || e.getSaleday().equals(p.getStartday())) && e.getSaleday().before(p.getEndday()))) {
-                                total = total + p.getPrice() * e.getQuantity();
+                            if(p.getPriceid() == pp.getPriceid()){
+                                if(p.getEndday().equals(campaigndao.readByCampaignid(campaignid).getEndday())){
+                                    if((e.getSaleday().after(p.getStartday()) || e.getSaleday().equals(p.getStartday())) && (e.getSaleday().before(p.getEndday()) || e.getSaleday().equals(p.getEndday()))){
+                                        total = total + p.getPrice() * e.getQuantity();
+                                    }
+                                }
+                                else{
+                                    if(((e.getSaleday().after(p.getStartday()) || e.getSaleday().equals(p.getStartday())) && e.getSaleday().before(p.getEndday()))){
+                                        total = total + p.getPrice() * e.getQuantity();
+                                    }
+                                }
                             }
                         }
                     }
@@ -698,7 +793,7 @@ public class Manager extends javax.swing.JFrame {
                 endday = c.getEndday();
                 lbCampaign.setText(campaignid);
                 lbTofc.setText(typeofcampaign);
-                lbProduct.setText(productid);
+                lbProduct.setText(productdao.readByProductid(productid).getProductname());
                 lbStartday.setText(startday.toString());
                 lbEndday.setText(endday.toString());
             }

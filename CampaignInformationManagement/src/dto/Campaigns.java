@@ -59,5 +59,10 @@ public class Campaigns implements Serializable{
     public void setEndday(Date endday) {
         this.endday = endday;
     }
+
+    @Override
+    public String toString() {
+        return this.getCampaignid();
+    }
     
 }

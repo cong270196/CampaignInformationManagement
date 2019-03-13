@@ -5,6 +5,7 @@
  */
 package gui;
 
+import dao.CampaignsDAO;
 import dao.PricesDAO;
 import dao.Products_PricesDAO;
 import dto.Prices;
@@ -29,7 +30,9 @@ public class Price extends javax.swing.JInternalFrame {
 
     PricesDAO pricedao = null;
     Products_PricesDAO ppdao = null;
+    CampaignsDAO campaigndao = null;
 
+    String campaignid = new Manager().campaignid;
     String productid = new Manager().productid;
 
     /**
@@ -39,7 +42,7 @@ public class Price extends javax.swing.JInternalFrame {
         initComponents();
         pricedao = new PricesDAO();
         ppdao = new Products_PricesDAO();
-        //productid = new Manager().productid;
+        campaigndao = new CampaignsDAO();
         loadTablePrice(ppdao.readAll());
 
         javax.swing.plaf.InternalFrameUI ui = this.getUI();
@@ -99,6 +102,9 @@ public class Price extends javax.swing.JInternalFrame {
 
         pnBg.add(spPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, 564, 310));
 
+        btCreate.setBackground(new java.awt.Color(54, 33, 89));
+        btCreate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btCreate.setForeground(new java.awt.Color(255, 255, 255));
         btCreate.setText("Create");
         btCreate.setPreferredSize(new java.awt.Dimension(80, 30));
         btCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +112,7 @@ public class Price extends javax.swing.JInternalFrame {
                 btCreateActionPerformed(evt);
             }
         });
-        pnBg.add(btCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, -1, -1));
+        pnBg.add(btCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 50, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(85, 65, 118));
@@ -121,10 +127,10 @@ public class Price extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(85, 65, 118));
         jLabel4.setText("Price ($)");
-        pnBg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, -1, -1));
+        pnBg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, -1, -1));
 
         tfPrice.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
-        pnBg.add(tfPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 130, -1));
+        pnBg.add(tfPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 130, -1));
 
         tfStartday.setDateFormatString("yyyy-MM-dd");
         pnBg.add(tfStartday, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 130, -1));
@@ -191,11 +197,13 @@ public class Price extends javax.swing.JInternalFrame {
                     ppid++;
                 }
                 Products_Prices pp = new Products_Prices(ppid, productid, p.getPriceid());
-                if (pricedao.create(p) != null && ppdao.create(pp) != null) {
+                if((endday.before(startday)||endday.equals(startday)) || (endday.after(campaigndao.readByCampaignid(campaignid).getEndday()))){
+                    JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
+                }
+                else if (pricedao.create(p) != null && ppdao.create(pp) != null) {
                     JOptionPane.showMessageDialog(null, "Success");
                     loadTablePrice(ppdao.readAll());
                     tfPrice.setText("");
-                    ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText("");
                     ((JTextField)tfEndday.getDateEditor().getUiComponent()).setText("");
                 }
             }
@@ -230,6 +238,8 @@ public class Price extends javax.swing.JInternalFrame {
         column.add("START DAY");
         column.add("END DAY");
         Vector rows = new Vector();
+        int count =0;
+        String endday = "";
         for (Products_Prices pp : readAll) {
             if (pp.getProductid().equals(productid)) {
                 for (Prices p : pricedao.readAll()) {
@@ -238,10 +248,22 @@ public class Price extends javax.swing.JInternalFrame {
                         row.add(p.getPrice());
                         row.add(p.getStartday());
                         row.add(p.getEndday());
+                        endday = String.valueOf(p.getEndday());
                         rows.add(row);
+                        count++;
                     }
                 }
             }
+        }
+        if(count==0){
+            if(campaigndao.readByCampaignid(campaignid)!=null){
+                ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText(String.valueOf(campaigndao.readByCampaignid(campaignid).getStartday()));
+                tfStartday.setEnabled(false);
+            }
+            
+        }else{
+            ((JTextField)tfStartday.getDateEditor().getUiComponent()).setText(endday);
+            tfStartday.setEnabled(false);
         }
         tbPrice.setModel(new DefaultTableModel(rows, column));
         tbPrice.updateUI();

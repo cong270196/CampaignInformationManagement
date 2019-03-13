@@ -129,7 +129,7 @@ public class Campaign extends javax.swing.JInternalFrame {
         });
         spCampaign.setViewportView(tbCampaign);
 
-        pnBg.add(spCampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 672, 290));
+        pnBg.add(spCampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 130, 700, 290));
 
         tfCampaignid.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
         pnBg.add(tfCampaignid, new org.netbeans.lib.awtextra.AbsoluteConstraints(37, 37, 120, -1));
@@ -137,6 +137,9 @@ public class Campaign extends javax.swing.JInternalFrame {
         tfTypeofcampaign.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(85, 65, 118)));
         pnBg.add(tfTypeofcampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(201, 37, 120, -1));
 
+        btCreate.setBackground(new java.awt.Color(54, 33, 89));
+        btCreate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btCreate.setForeground(new java.awt.Color(255, 255, 255));
         btCreate.setText("Create");
         btCreate.setPreferredSize(new java.awt.Dimension(80, 30));
         btCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -146,6 +149,9 @@ public class Campaign extends javax.swing.JInternalFrame {
         });
         pnBg.add(btCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(356, 20, -1, -1));
 
+        btReset.setBackground(new java.awt.Color(54, 33, 89));
+        btReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btReset.setForeground(new java.awt.Color(255, 255, 255));
         btReset.setText("Reset");
         btReset.setPreferredSize(new java.awt.Dimension(80, 30));
         btReset.addActionListener(new java.awt.event.ActionListener() {
@@ -155,6 +161,9 @@ public class Campaign extends javax.swing.JInternalFrame {
         });
         pnBg.add(btReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(442, 20, -1, -1));
 
+        btUpdate.setBackground(new java.awt.Color(54, 33, 89));
+        btUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btUpdate.setForeground(new java.awt.Color(255, 255, 255));
         btUpdate.setText("Update");
         btUpdate.setPreferredSize(new java.awt.Dimension(80, 30));
         btUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -164,6 +173,9 @@ public class Campaign extends javax.swing.JInternalFrame {
         });
         pnBg.add(btUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(528, 20, -1, -1));
 
+        btDelete.setBackground(new java.awt.Color(54, 33, 89));
+        btDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btDelete.setForeground(new java.awt.Color(255, 255, 255));
         btDelete.setText("Delete");
         btDelete.setPreferredSize(new java.awt.Dimension(80, 30));
         btDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -193,10 +205,12 @@ public class Campaign extends javax.swing.JInternalFrame {
         jLabel4.setText("End Day (yyyy-MM-dd)");
         pnBg.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, -1, -1));
 
+        cbProduct.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cbProduct.setForeground(new java.awt.Color(85, 65, 118));
         cbProduct.setMaximumRowCount(100);
         pnBg.add(cbProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 120, -1));
 
+        cbManager.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         cbManager.setForeground(new java.awt.Color(85, 65, 118));
         cbManager.setMaximumRowCount(100);
         pnBg.add(cbManager, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 120, -1));
@@ -267,7 +281,11 @@ public class Campaign extends javax.swing.JInternalFrame {
                 Managecams manage = new Managecams(manageid, userid, campaignid, productid);
                 if (campaigndao.readByCampaignid(campaignid) != null) {
                     JOptionPane.showMessageDialog(null, "ID already exists");
-                } else if ((campaigndao.create(campaign) != null) && (managedao.create(manage) != null)) {
+                }
+                else if((endday.before(startday)||endday.equals(startday))){
+                    JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
+                }
+                else if ((campaigndao.create(campaign) != null) && (managedao.create(manage) != null)) {
                     JOptionPane.showMessageDialog(null, "Success");
                     Estimates e = new Estimates(campaign.getCampaignid(), 0, 0, 0);
                     estimatedao.create(e);

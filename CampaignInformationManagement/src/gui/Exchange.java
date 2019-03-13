@@ -5,6 +5,7 @@
  */
 package gui;
 
+import dao.CampaignsDAO;
 import dao.ExchangesDAO;
 import dao.ManagecamsDAO;
 import dao.PricesDAO;
@@ -38,6 +39,7 @@ public class Exchange extends javax.swing.JInternalFrame {
     Products_PricesDAO ppdao = null;
     PricesDAO pricedao = null;
     ManagecamsDAO managedao = null;
+    CampaignsDAO campaigndao = null;
 
     String userid = new Manager().userid;
     String campaignid = new Manager().campaignid;
@@ -52,13 +54,7 @@ public class Exchange extends javax.swing.JInternalFrame {
         realitydao = new RealitysDAO();
         ppdao = new Products_PricesDAO();
         pricedao = new PricesDAO();
-//        for (Managecams mm : managedao.readAll()) {
-//            if (mm.getUserid().equals(userid)) {
-//                campaignid = mm.getCampaignid();
-//                productid = mm.getProductid();
-//            }
-//        }
-
+        campaigndao = new CampaignsDAO();
         loadTableExchange(exchangedao.readAll());
         javax.swing.plaf.InternalFrameUI ui = this.getUI();
         ((javax.swing.plaf.basic.BasicInternalFrameUI) ui).setNorthPane(null);
@@ -125,6 +121,9 @@ public class Exchange extends javax.swing.JInternalFrame {
         });
         pnBg.add(tfQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 130, -1));
 
+        btCreate.setBackground(new java.awt.Color(54, 33, 89));
+        btCreate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btCreate.setForeground(new java.awt.Color(255, 255, 255));
         btCreate.setText("Create");
         btCreate.setPreferredSize(new java.awt.Dimension(80, 30));
         btCreate.addActionListener(new java.awt.event.ActionListener() {
@@ -177,17 +176,21 @@ public class Exchange extends javax.swing.JInternalFrame {
 
     private void btCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCreateActionPerformed
         try {
-            if (((JTextField)tfSaleday.getDateEditor().getUiComponent()).getText().equals("") || tfQuantity.getText().equals("")) {
+            if (((JTextField) tfSaleday.getDateEditor().getUiComponent()).getText().equals("") || tfQuantity.getText().equals("")) {
                 JOptionPane.showMessageDialog(null, "Please complete all information");
-            }
-            else if(!isLegalDate(((JTextField)tfSaleday.getDateEditor().getUiComponent()).getText())){
+            } else if (!isLegalDate(((JTextField) tfSaleday.getDateEditor().getUiComponent()).getText())) {
                 JOptionPane.showMessageDialog(null, "Enter the date incorrectly");
-            }
-            else {
-                Date saleday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField)tfSaleday.getDateEditor().getUiComponent()).getText());
+            } else {
+                Date saleday = new SimpleDateFormat("yyyy-MM-dd").parse(((JTextField) tfSaleday.getDateEditor().getUiComponent()).getText());
                 int quantity = Integer.parseInt(tfQuantity.getText().trim());
                 Exchanges e = new Exchanges(campaignid, saleday, quantity);
-                if (exchangedao.create(e) != null) {
+                
+                
+                if (e.getSaleday().before(campaigndao.readByCampaignid(campaignid).getStartday()) || e.getSaleday().after(campaigndao.readByCampaignid(campaignid).getEndday())) {
+                    JOptionPane.showMessageDialog(null, "Entering a date is not a campaign time");
+                
+
+                } else if (exchangedao.create(e) != null) {
                     JOptionPane.showMessageDialog(null, "Success");
                     int sumquantity = 0;
                     for (Exchanges ee : exchangedao.readAll()) {
@@ -202,7 +205,7 @@ public class Exchange extends javax.swing.JInternalFrame {
                         }
                     }
                     loadTableExchange(exchangedao.readAll());
-                    ((JTextField)tfSaleday.getDateEditor().getUiComponent()).setText("");
+                    ((JTextField) tfSaleday.getDateEditor().getUiComponent()).setText("");
                     tfQuantity.setText("");
                 }
             }
@@ -249,10 +252,21 @@ public class Exchange extends javax.swing.JInternalFrame {
                 for (Products_Prices pp : ppdao.readAll()) {
                     if (pp.getProductid().equals(productid)) {
                         for (Prices p : pricedao.readAll()) {
-                            if ((p.getPriceid() == pp.getPriceid()) && ((e.getSaleday().after(p.getStartday())||e.getSaleday().equals(p.getStartday()))&& e.getSaleday().before(p.getEndday()))) {
-                                row.add(p.getPrice());
-                                row.add(p.getPrice() * e.getQuantity());
-                                total = total + p.getPrice() * e.getQuantity();
+                            if(p.getPriceid() == pp.getPriceid()){
+                                if(e.getSaleday().equals(campaigndao.readByCampaignid(campaignid).getEndday())){
+                                    if((e.getSaleday().after(p.getStartday()) || e.getSaleday().equals(p.getStartday())) && (e.getSaleday().before(p.getEndday()) || e.getSaleday().equals(p.getEndday()))){
+                                        row.add(p.getPrice());
+                                        row.add(p.getPrice() * e.getQuantity());
+                                        total = total + p.getPrice() * e.getQuantity();
+                                    }
+                                }
+                                else{
+                                    if(((e.getSaleday().after(p.getStartday()) || e.getSaleday().equals(p.getStartday())) && e.getSaleday().before(p.getEndday()))) {
+                                        row.add(p.getPrice());
+                                        row.add(p.getPrice() * e.getQuantity());
+                                        total = total + p.getPrice() * e.getQuantity();
+                                    }
+                                }
                             }
                         }
                     }
@@ -266,6 +280,7 @@ public class Exchange extends javax.swing.JInternalFrame {
         tbExchange.updateUI();
         spExchange.setViewportView(this.tbExchange);
     }
+
     boolean isLegalDate(String s) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         sdf.setLenient(false);
