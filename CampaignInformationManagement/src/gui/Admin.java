@@ -5,6 +5,9 @@
  */
 package gui;
 
+import dao.CampaignsDAO;
+import dao.ProductsDAO;
+import dao.UsersDAO;
 import java.awt.Color;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
@@ -14,6 +17,9 @@ import javax.swing.JPanel;
  * @author USER
  */
 public class Admin extends javax.swing.JFrame {
+    CampaignsDAO campaigndao = new CampaignsDAO();
+    ProductsDAO productdao = new ProductsDAO();
+    UsersDAO userdao = new UsersDAO();
 
     /**
      * Creates new form Admin
@@ -24,6 +30,7 @@ public class Admin extends javax.swing.JFrame {
         Campaign campaign = new Campaign();
         campaign.setTitle("Campaign");
         createView(campaign);
+        Information();
     }
 
     /**
@@ -56,6 +63,12 @@ public class Admin extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         pnRight = new javax.swing.JPanel();
+        lbCountCampaign = new javax.swing.JLabel();
+        lbCountProduct = new javax.swing.JLabel();
+        lbCountUser = new javax.swing.JLabel();
+        lbImgCampaign = new javax.swing.JLabel();
+        lbImgProduct = new javax.swing.JLabel();
+        lbImgUser = new javax.swing.JLabel();
         dpMain = new javax.swing.JDesktopPane();
         jLabel15 = new javax.swing.JLabel();
 
@@ -270,17 +283,37 @@ public class Admin extends javax.swing.JFrame {
         pnBg.add(pnLeft, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 700));
 
         pnRight.setBackground(new java.awt.Color(122, 72, 221));
+        pnRight.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout pnRightLayout = new javax.swing.GroupLayout(pnRight);
-        pnRight.setLayout(pnRightLayout);
-        pnRightLayout.setHorizontalGroup(
-            pnRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 730, Short.MAX_VALUE)
-        );
-        pnRightLayout.setVerticalGroup(
-            pnRightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
-        );
+        lbCountCampaign.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbCountCampaign.setForeground(new java.awt.Color(255, 255, 255));
+        lbCountCampaign.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbCountCampaign.setText("0");
+        pnRight.add(lbCountCampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 50, 40));
+
+        lbCountProduct.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbCountProduct.setForeground(new java.awt.Color(255, 255, 255));
+        lbCountProduct.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbCountProduct.setText("0");
+        pnRight.add(lbCountProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, 50, 40));
+
+        lbCountUser.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbCountUser.setForeground(new java.awt.Color(255, 255, 255));
+        lbCountUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbCountUser.setText("0");
+        pnRight.add(lbCountUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 130, 50, 40));
+
+        lbImgCampaign.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbImgCampaign.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_strike_filled_100px.png"))); // NOI18N
+        pnRight.add(lbImgCampaign, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 110, 100));
+
+        lbImgProduct.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbImgProduct.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_car_insurance_card_filled_100px.png"))); // NOI18N
+        pnRight.add(lbImgProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 110, 80));
+
+        lbImgUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbImgUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_employee_card_100px.png"))); // NOI18N
+        pnRight.add(lbImgUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, 80, 100));
 
         pnBg.add(pnRight, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 60, 730, 190));
 
@@ -329,6 +362,7 @@ public class Admin extends javax.swing.JFrame {
         Campaign campaign = new Campaign();
         campaign.setTitle("Campaign");
         createView(campaign);
+        Information();
     }//GEN-LAST:event_pnCampaignMouseClicked
 
     private void pnProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnProductMouseClicked
@@ -339,6 +373,7 @@ public class Admin extends javax.swing.JFrame {
         Product product = new Product();
         product.setTitle("Product");
         createView(product);
+        Information();
     }//GEN-LAST:event_pnProductMouseClicked
 
     private void pnUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnUserMouseClicked
@@ -349,6 +384,7 @@ public class Admin extends javax.swing.JFrame {
         User user = new User();
         user.setTitle("User");
         createView(user);
+        Information();
     }//GEN-LAST:event_pnUserMouseClicked
 
     private void pnChangePasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnChangePasswordMouseClicked
@@ -446,6 +482,12 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCampaign;
+    private javax.swing.JLabel lbCountCampaign;
+    private javax.swing.JLabel lbCountProduct;
+    private javax.swing.JLabel lbCountUser;
+    private javax.swing.JLabel lbImgCampaign;
+    private javax.swing.JLabel lbImgProduct;
+    private javax.swing.JLabel lbImgUser;
     private javax.swing.JLabel lbProduct;
     private javax.swing.JLabel lbUser;
     private javax.swing.JPanel pnBg;
@@ -457,4 +499,10 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel pnRight;
     private javax.swing.JPanel pnUser;
     // End of variables declaration//GEN-END:variables
+
+    private void Information() {
+        lbCountCampaign.setText(String.valueOf(campaigndao.readAll().size()));
+        lbCountProduct.setText(String.valueOf(productdao.readAll().size()));
+        lbCountUser.setText(String.valueOf(userdao.readAll().size()-1));
+    }
 }
