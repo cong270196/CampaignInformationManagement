@@ -9,7 +9,9 @@ import dao.CampaignsDAO;
 import dao.ProductsDAO;
 import dao.UsersDAO;
 import java.awt.Color;
+import java.io.File;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -62,6 +64,9 @@ public class Admin extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        pnHelp = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         pnRight = new javax.swing.JPanel();
         lbCountCampaign = new javax.swing.JLabel();
         lbCountProduct = new javax.swing.JLabel();
@@ -280,6 +285,43 @@ public class Admin extends javax.swing.JFrame {
         jLabel14.setText("Admin");
         pnLeft.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 120, 40));
 
+        pnHelp.setBackground(new java.awt.Color(54, 33, 89));
+        pnHelp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnHelpMouseClicked(evt);
+            }
+        });
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_help_20px_1.png"))); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel8.setText("Help");
+
+        javax.swing.GroupLayout pnHelpLayout = new javax.swing.GroupLayout(pnHelp);
+        pnHelp.setLayout(pnHelpLayout);
+        pnHelpLayout.setHorizontalGroup(
+            pnHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnHelpLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnHelpLayout.setVerticalGroup(
+            pnHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnHelpLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pnLeft.add(pnHelp, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 270, 60));
+
         pnBg.add(pnLeft, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 700));
 
         pnRight.setBackground(new java.awt.Color(122, 72, 221));
@@ -403,6 +445,28 @@ public class Admin extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jLabel15MouseClicked
 
+    private void pnHelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnHelpMouseClicked
+        // TODO add your handling code here:
+        try 
+        { 
+            String path = new File("").getAbsolutePath() + "\\help\\Help.chm"; 
+            File file = new File(path); 
+             
+            if(file.exists()) 
+            { 
+                Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler " + path); 
+            } 
+            else 
+            { 
+                throw new Exception("File \"Help.chm\" not found!"); 
+            } 
+        } 
+        catch(Exception ex) 
+        { 
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Notice", JOptionPane.OK_OPTION); 
+        }
+    }//GEN-LAST:event_pnHelpMouseClicked
+
     void setColor(JPanel panel){
         panel.setBackground(new Color(85,65,118));
     }
@@ -478,7 +542,9 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lbCampaign;
@@ -493,6 +559,7 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel pnBg;
     private javax.swing.JPanel pnCampaign;
     private javax.swing.JPanel pnChangePassword;
+    private javax.swing.JPanel pnHelp;
     private javax.swing.JPanel pnLeft;
     private javax.swing.JPanel pnLogOut;
     private javax.swing.JPanel pnProduct;

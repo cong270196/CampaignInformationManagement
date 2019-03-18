@@ -218,7 +218,7 @@ public class LoginFrm extends javax.swing.JFrame {
                         this.dispose();
                     }
                     else{
-                        JOptionPane.showMessageDialog(this, "You do not manage any campaigns");
+                        JOptionPane.showMessageDialog(this, "You do not manage any campaign");
                     }
                 }
                 else{

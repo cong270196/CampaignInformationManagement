@@ -22,8 +22,10 @@ import dto.Products_Prices;
 import dto.Realitys;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.File;
 import java.util.Date;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -96,6 +98,9 @@ public class Manager extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        pnHelp = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         pnRight = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -340,6 +345,43 @@ public class Manager extends javax.swing.JFrame {
         jLabel14.setText("Manager");
         pnLeft.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 120, 40));
 
+        pnHelp.setBackground(new java.awt.Color(54, 33, 89));
+        pnHelp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnHelpMouseClicked(evt);
+            }
+        });
+
+        jLabel22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8_help_20px_1.png"))); // NOI18N
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel23.setText("Help");
+
+        javax.swing.GroupLayout pnHelpLayout = new javax.swing.GroupLayout(pnHelp);
+        pnHelp.setLayout(pnHelpLayout);
+        pnHelpLayout.setHorizontalGroup(
+            pnHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnHelpLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnHelpLayout.setVerticalGroup(
+            pnHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnHelpLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnHelpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        pnLeft.add(pnHelp, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 550, 270, 60));
+
         bg.add(pnLeft, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 700));
 
         pnRight.setBackground(new java.awt.Color(122, 72, 221));
@@ -374,17 +416,17 @@ public class Manager extends javax.swing.JFrame {
         lbEstimateBudget.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbEstimateBudget.setForeground(new java.awt.Color(204, 51, 0));
         lbEstimateBudget.setText("0");
-        pnRight.add(lbEstimateBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 70, 20));
+        pnRight.add(lbEstimateBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 100, 20));
 
         lbRealityBudget.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lbRealityBudget.setForeground(new java.awt.Color(204, 51, 0));
         lbRealityBudget.setText("0");
-        pnRight.add(lbRealityBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 80, 30));
+        pnRight.add(lbRealityBudget, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 130, 30));
 
         lbRealityQuantity.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         lbRealityQuantity.setForeground(new java.awt.Color(204, 51, 0));
         lbRealityQuantity.setText("0");
-        pnRight.add(lbRealityQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 80, 30));
+        pnRight.add(lbRealityQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 110, 30));
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(255, 255, 255));
@@ -417,7 +459,7 @@ public class Manager extends javax.swing.JFrame {
         lbEstimateQuantity.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbEstimateQuantity.setForeground(new java.awt.Color(204, 51, 0));
         lbEstimateQuantity.setText("0");
-        pnRight.add(lbEstimateQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 70, 20));
+        pnRight.add(lbEstimateQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 90, 20));
 
         lbVaQuantity.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         pnRight.add(lbVaQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, -1, -1));
@@ -569,6 +611,28 @@ public class Manager extends javax.swing.JFrame {
         Information();
     }//GEN-LAST:event_btUpdateActionPerformed
 
+    private void pnHelpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnHelpMouseClicked
+        // TODO add your handling code here:
+        try 
+        { 
+            String path = new File("").getAbsolutePath() + "\\help\\Help.chm"; 
+            File file = new File(path); 
+             
+            if(file.exists()) 
+            { 
+                Runtime.getRuntime().exec("rundll32 url.dll, FileProtocolHandler " + path); 
+            } 
+            else 
+            { 
+                throw new Exception("File \"Help.chm\" not found!"); 
+            } 
+        } 
+        catch(Exception ex) 
+        { 
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage(), "Notice", JOptionPane.OK_OPTION); 
+        }
+    }//GEN-LAST:event_pnHelpMouseClicked
+
     void setColor(JPanel panel) {
         panel.setBackground(new Color(85, 65, 118));
     }
@@ -653,6 +717,8 @@ public class Manager extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -680,6 +746,7 @@ public class Manager extends javax.swing.JFrame {
     private javax.swing.JPanel pnChangePassword;
     private javax.swing.JPanel pnEstimate;
     private javax.swing.JPanel pnExchange;
+    private javax.swing.JPanel pnHelp;
     private javax.swing.JPanel pnLeft;
     private javax.swing.JPanel pnLogOut;
     private javax.swing.JPanel pnPrice;
